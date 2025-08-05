@@ -6,6 +6,7 @@ class MessageSchema(BaseModel):
 
 class UserSchema(BaseModel):
     username: str
+    email:str
     password: str
 
 class UserPublic(BaseModel):
@@ -18,3 +19,18 @@ class TokenSchema(BaseModel):
 
 class TokenDataSchema(BaseModel):
     username: str | None = None
+
+
+class CompanySchema(BaseModel):
+    name: str
+    business_area: str
+    city: str
+    state: str
+    cnpj: str
+
+
+class CompanyReadSchema(CompanySchema):
+    id: int
+
+    class Config:
+        orm_mode = True
