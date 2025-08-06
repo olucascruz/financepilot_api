@@ -3,7 +3,7 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from app.data_modules.models import User
-from app.routers import auth, users, company
+from app.routers import auth, users, company, order, transaction
 from security import get_current_user
 from app.data_modules.database import engine
 from app.data_modules.settings import Base
@@ -30,7 +30,8 @@ app.add_middleware(
 app.include_router(users.router)
 app.include_router(auth.router)
 app.include_router(company.router)
-
+app.include_router(order.router)
+app.include_router(transaction.router)
 
 
 

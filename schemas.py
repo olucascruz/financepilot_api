@@ -1,5 +1,9 @@
 from pydantic import BaseModel
 from datetime import datetime
+from decimal import Decimal
+from datetime import date
+from pydantic import Field
+from typing import Optional
 
 class MessageSchema(BaseModel):
     message: str
@@ -33,4 +37,51 @@ class CompanyReadSchema(CompanySchema):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
+class OrderBase(BaseModel):
+    data: date
+    value: Decimal
+    payament_method: str
+    status: str
+    cnpj: str = Field(..., min_length=14, max_length=18)
+
+class OrderCreate(OrderBase):
+    pass  # pode customizar aqui depois (ex: campos obrigatórios na criação)
+
+class OrderUpdate(BaseModel):
+    data: date | None = None
+    value: Decimal | None = None
+    payament_method: str | None = None
+    status: str | None = None
+    cnpj: str | None = None
+
+class OrderResponse(OrderBase):
+    id: int
+
+    class Config:
+        from_attributes = True
+
+
+
+class TransactionBase(BaseModel):
+    type: str
+    category: str
+    description: str
+    value: Decimal
+    status: str
+    create_at: date
+
+class TransactionCreate(TransactionBase):
+    type: Optional[str] = None
+    category: Optional[str] = None
+    description: Optional[str] = None
+    value: Optional[Decimal] = None
+    status: Optional[str] = None
+    create_at: Optional[date] = None
+
+class TransactionResponse(TransactionBase):
+    id: int
+
+    class Config:
+        from_attributes = True
