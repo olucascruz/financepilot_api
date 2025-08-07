@@ -2,19 +2,20 @@ from datetime import timedelta
 from typing import Annotated
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from app.data_modules.database import get_session
 from schemas import TokenSchema
 from security import create_access_token, authenticate_user, get_current_user
 from app.data_modules.models import User
 
+router = APIRouter(prefix='/auth', tags=['auth'])
 SECRET_KEY = "hello world"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 180
-router = APIRouter(prefix='/auth', tags=['auth'])
-CurrentUser = Annotated[User, Depends(get_current_user)]
 
+
+
+CurrentUser = Annotated[User, Depends(get_current_user)]
 DbSession = Annotated[Session, Depends(get_session)]
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 OAuth2Form = Annotated[OAuth2PasswordRequestForm, Depends()]

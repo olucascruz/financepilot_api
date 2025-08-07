@@ -4,7 +4,6 @@ from sqlalchemy.sql import func
 from .settings import Base
 import datetime
 
-
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
@@ -21,6 +20,7 @@ class Company(Base):
     city = Column(String, nullable=False)
     state = Column(String, nullable=False)
     cnpj = Column(String, unique=True, nullable=False)
+    created_at = Column(TIMESTAMP, server_default=func.now())
 
 
 class Order(Base):
@@ -31,8 +31,7 @@ class Order(Base):
     payament_method = Column(String, nullable=False)
     status = Column(String, nullable=False)
     cnpj = Column(String, unique=True, nullable=False)
-    create_at = Column(String, nullable=False)
-
+    created_at = Column(TIMESTAMP, server_default=func.now())
 
 class Transactions(Base):
     __tablename__ = "transactions"
@@ -43,8 +42,7 @@ class Transactions(Base):
     description = Column(String, nullable=False)
     value = Column(Numeric(10, 2), nullable=False)
     status = Column(String, unique=True, nullable=False)
-    create_at = Column(String, unique=True, nullable=False)
-
+    created_at = Column(TIMESTAMP, server_default=func.now())
 
 
 

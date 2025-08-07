@@ -24,7 +24,6 @@ class TokenSchema(BaseModel):
 class TokenDataSchema(BaseModel):
     username: str | None = None
 
-
 class CompanySchema(BaseModel):
     name: str
     business_area: str
@@ -40,17 +39,20 @@ class CompanyReadSchema(CompanySchema):
         from_attributes = True
 
 class OrderBase(BaseModel):
-    data: date
+    create_at: date
     value: Decimal
     payament_method: str
     status: str
     cnpj: str = Field(..., min_length=14, max_length=18)
 
-class OrderCreate(OrderBase):
-    pass  # pode customizar aqui depois (ex: campos obrigatórios na criação)
+class OrderCreate(BaseModel):
+    value: Decimal
+    payament_method: str
+    status: str
+    cnpj: str = Field(..., min_length=14, max_length=18)
 
 class OrderUpdate(BaseModel):
-    data: date | None = None
+    create_at: date | None = None
     value: Decimal | None = None
     payament_method: str | None = None
     status: str | None = None
@@ -82,6 +84,23 @@ class TransactionCreate(TransactionBase):
 
 class TransactionResponse(TransactionBase):
     id: int
+
+    class Config:
+        from_attributes = True
+
+class TransactionUpdate(BaseModel):
+    valor: Optional[float] = None
+    descricao: Optional[str] = None
+    tipo: Optional[str] = None
+
+    class Config:
+        from_attributes = True  # antes era orm_mode
+
+class OrderUpdate(BaseModel):
+    # Inclua os campos da Order que podem ser atualizados
+    produto: Optional[str] = None
+    quantidade: Optional[int] = None
+    status: Optional[str] = None
 
     class Config:
         from_attributes = True

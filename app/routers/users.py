@@ -20,7 +20,6 @@ async def register( user: UserSchema,
     ):
 
     hashed_password = get_password_hash(user.password)
-
     db_user = User(username=user.username, password=hashed_password)
     db.add(db_user)
     db.commit()
